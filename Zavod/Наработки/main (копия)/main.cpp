@@ -80,7 +80,7 @@ int main()
 
 	// Menu /Game section /Any games / Creat map
 	const int NUM_BLOCK_CREAT_MAP = 3;	//Список игр + exit
-	char menu_creat_map[NUM_BLOCK_CREAT_MAP][LEN]= {
+	char game_menu[NUM_BLOCK_CREAT_MAP][LEN]= {
 		"Next",
 		"Rewrite",
 		"Exit"
@@ -165,7 +165,7 @@ int main()
 								if (pos_cursor == NUM_BLOCK_MENU_GAME - 1){
 									pos_cursor = 0;
 									--depth_menu;
-									//printAllBlocks(NUM_BLOCK_GAMES + 1, &empty_str[0]);
+									
 									printAllBlocks(NUM_BLOCK_GAMES + 1, &game_section[0][0]);	//Выписывает весь список игр
 									printBlock(4, NUM_BLOCK_GAMES, &empty_str[0]);	//Стираем 5-ую лишнюю строку, т.к мы поднялись на верх, где их 4
 									selectBlock(pos_cursor, NUM_BLOCK_GAMES, game_section[pos_cursor]);	//Выделение блока
@@ -175,41 +175,55 @@ int main()
 									
 									continue;
 								}
-								++depth_menu;
-
 								//Start game
 								if (pos_cursor == 0){}
 								//Archive fields
 								else if (pos_cursor == 1){}
 								//Creat field
 								else if (pos_cursor == 2){
+									echo();	//Чтобы при записи символа, символ не повторялся
+									curs_set(1);
+									
+									//system("clear");	//Очистка экрана
+									
+									bool is_exit = 0;
 
-									pos_cursor = 0;
-									printAllBlocks(NUM_BLOCK_CREAT_MAP, &menu_creat_map[0][0]);	//Выписывает весь список игр
-									selectBlock(0, NUM_BLOCK_CREAT_MAP, menu_creat_map[0]);	//Выделение блока
+									int height = LINES / 2;
+									int width = COLS / 2 - LEN + 10;
 
-									//echo();	//Чтобы при записи символа, символ не повторялся
-									//curs_set(1);
-
-									while(depth_menu == 4){
-										navigation(ch, pos_cursor, NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Навигация + Печать блока + Выделение блока
+									while (!is_exit){		
+										// Ввод имени файла
+										mvprintw(height - 2, width, "Filename :  ");
+										scanw("%s", &user.filename);
 										
-										if (ch == KEY_RIGHT || ch == '\n' || ch == 'd'){
-											if (pos_cursor == NUM_BLOCK_MENU_GAME - 1){
-												pos_cursor = 0;
-												--depth_menu;
-												//printAllBlocks(NUM_BLOCK_GAMES + 1, &empty_str[0]);
-												printAllBlocks(NUM_BLOCK_MENU_GAME + 1, &game_menu[0][0]);	//Выписывает весь список игр
-												//for (int i = )
-												printBlock(3, NUM_BLOCK_MENU_GAME, &empty_str[0]);	//Стираем 5-ую лишнюю строку, т.к мы поднялись на верх, где их 4
-												selectBlock(0, NUM_BLOCK_MENU_GAME, game_menu[0]);	//Выделение блока
-												
-												continue;
+										// Добавляем в конец строки ".txt"
+										int len_filename = strlen(user.filename);
+										mvprintw(height - 2, width + 12 + len_filename, ".txt");
+
+										mvprintw(height - 1, width, "Map name :  ");
+										scanw("%s", &user.mapname);
+										
+										mvprintw(LINES - 4, width, "Next?");
+										printBlock(1, 0, "Yes");
+										printBlock(2, 0, "Rewrite");
+										printBlock(2, 0, "Exit");
+/**
+										mvprintw(LINES - 3, (COLS - WIDTH_WIN) / 2, "If wanting next, then touch button \"arrow right\" or \"enter\".");
+										mvprintw(LINES - 2, (COLS - WIDTH_WIN) / 2, "If wanting rewrite, then touch button \"arrow left\"");
+*/								
+										ch = getch();
+										if (ch == KEY_RIGHT || ch == '\n')
+											is_exit = 1;
+										else if (ch == KEY_LEFT){
+											for (int i = width; i != COLS; ++i){
+												mvprintw(height - 2, width - 8 + i, "%c", ' ');
+												mvprintw(height - 1, width - 4 + i, "%c", ' ');
 											}
 										}
-								}
-									
-									
+										
+									}
+									system("clear");	//Очистка экрана
+									mvprintw(LINES / 2 - 1, COLS / 2 - LEN + 10, "Bruh");
 								}
 								//Import field
 								else if (pos_cursor == 3){}
