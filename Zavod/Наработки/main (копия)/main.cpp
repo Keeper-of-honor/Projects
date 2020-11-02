@@ -59,33 +59,6 @@ int main()
 		"Exit"
 	};
 
-	// Menu /Game section
-	const int NUM_BLOCK_GAMES = 4;	//Список игр + exit
-	char game_section[NUM_BLOCK_GAMES][LEN]= {
-		"Snake",
-		"Pacman",
-		"War of Countries",
-		"Exit"
-	};
-	
-	// Menu /Game section /Any games
-	const int NUM_BLOCK_MENU_GAME = 5;	//Список игр + exit
-	char game_menu[NUM_BLOCK_MENU_GAME][LEN]= {
-		"Start",
-		"Archive maps",
-		"Creat map",
-		"Import map",
-		"Exit"
-	};
-
-	// Menu /Game section /Any games / Creat map
-	const int NUM_BLOCK_CREAT_MAP = 3;	//Список игр + exit
-	char game_menu[NUM_BLOCK_CREAT_MAP][LEN]= {
-		"Next",
-		"Rewrite",
-		"Exit"
-	};
-
 	//Данные пользователя
 	struct DataUser{
 		char username[LEN];	//Имя
@@ -126,14 +99,24 @@ int main()
 
 	selectBlock(pos_cursor, NUM_BLOCK_MENU, text_menu[pos_cursor]);	//Выделение блока
 	
-	//1. Главное меню
+	/*{---- 1. Главное меню ----}*/
+	
 	while(depth_menu == 1){
 		navigation(ch, pos_cursor, NUM_BLOCK_MENU, &text_menu[0][0]);	//Навигация + Печать блока + Выделение блока
 		
-		if (ch == KEY_RIGHT || ch == '\n'){
+		if (ch == KEY_RIGHT || ch == '\n' || ch == 'd'){
 			++depth_menu;
 			
-			//2. Выбор игры
+			/*{---- 2. Выбор игры ----}*/
+
+			const int NUM_BLOCK_GAMES = 4;	//Список игр + exit
+			char game_section[NUM_BLOCK_GAMES][LEN]= {
+				"Snake",
+				"Pacman",
+				"War of Countries",
+				"Exit"
+			};
+			
 			if (pos_cursor == 0){
 			
 				pos_cursor = 0;
@@ -143,7 +126,17 @@ int main()
 				while(depth_menu == 2){
 					navigation(ch, pos_cursor, NUM_BLOCK_GAMES, &game_section[0][0]);	//Навигация + Печать блока + Выделение блока
 					
-					//3. Меню игры
+					/*{---- 3. Меню игры ----}*/
+					
+					const int NUM_BLOCK_MENU_GAME = 5;	//Список игр + exit
+					char game_menu[NUM_BLOCK_MENU_GAME][LEN]= {
+						"Start",
+						"Archive maps",
+						"Creat map",
+						"Import map",
+						"Exit"
+					};
+					
 					if (ch == KEY_RIGHT || ch == '\n' || ch == 'd'){
 						//Exit
 						if (pos_cursor == NUM_BLOCK_GAMES - 1){
@@ -181,36 +174,38 @@ int main()
 								else if (pos_cursor == 1){}
 								//Creat field
 								else if (pos_cursor == 2){
+								
+								
+									/*
+									const int NUM_BLOCK_CREAT_MAP = 3;	//Список игр + exit
+									char creat_map[NUM_BLOCK_CREAT_MAP][LEN]= {
+										"Next",
+										"Rewrite",
+										"Exit"
+									};
+									
+									//Exit
+									if (pos_cursor == NUM_BLOCK_CREAT_MAP - 1){
+										pos_cursor = 0;
+										--depth_menu;
+										continue;
+									}
+									*/
+									
 									echo();	//Чтобы при записи символа, символ не повторялся
 									curs_set(1);
 									
-									//system("clear");	//Очистка экрана
+									system("clear");	//Очистка экрана
+									inputNamefileNamemap(user.filename, user.mapname);
 									
-									bool is_exit = 0;
-
-									int height = LINES / 2;
-									int width = COLS / 2 - LEN + 10;
-
-									while (!is_exit){		
-										// Ввод имени файла
-										mvprintw(height - 2, width, "Filename :  ");
-										scanw("%s", &user.filename);
+									++depth_menu;	//Опускаемся вниз
+									pos_cursor = 0;
+									printAllBlocks(NUM_BLOCK_CREAT_MAP, &creat_map[0][0]);	//Выписывает весь список игр
+									selectBlock(pos_cursor, NUM_BLOCK_CREAT_MAP, creat_map[pos_cursor]);	//Выделение блока
 										
-										// Добавляем в конец строки ".txt"
-										int len_filename = strlen(user.filename);
-										mvprintw(height - 2, width + 12 + len_filename, ".txt");
-
-										mvprintw(height - 1, width, "Map name :  ");
-										scanw("%s", &user.mapname);
-										
-										mvprintw(LINES - 4, width, "Next?");
-										printBlock(1, 0, "Yes");
-										printBlock(2, 0, "Rewrite");
-										printBlock(2, 0, "Exit");
-/**
-										mvprintw(LINES - 3, (COLS - WIDTH_WIN) / 2, "If wanting next, then touch button \"arrow right\" or \"enter\".");
-										mvprintw(LINES - 2, (COLS - WIDTH_WIN) / 2, "If wanting rewrite, then touch button \"arrow left\"");
-*/								
+									while(depth_menu == 4){	
+										navigation(ch, pos_cursor, NUM_BLOCK_CREAT_MAP, &creat_map[0][0]);	//Навигация
+								
 										ch = getch();
 										if (ch == KEY_RIGHT || ch == '\n')
 											is_exit = 1;
@@ -247,4 +242,16 @@ int main()
 	}
 	
 	endwin();
+}
+
+void inputNamefileNamemap(char &filename, char mapname){
+	// Ввод имени файла
+	mvprintw(0, 0, "Input Filename :  ");
+	scanw("%s", &filename);
+									
+	// Добавляем в конец строки ".txt"
+	//int len_filename = strlen(user.filename);
+	mvprintw(1, 0, "Input Filename :  %s.txt", filename);
+	mvprintw(0, 0, "Input name map :  ");
+	scanw("%s", &mapname);
 }
