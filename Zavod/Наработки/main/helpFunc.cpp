@@ -12,8 +12,7 @@ extern const int LEN;	//Длина
 
 //Анимация
 //	Передаём площадь экрана
-void animation(int s_win){
-	int sleep_step = 1000;
+void animation(int s_win, int sleep_step){
 	//Адаптация скорости для экранов
 	if (s_win / 1680){
 		int step = s_win / 1680;

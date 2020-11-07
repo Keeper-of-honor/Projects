@@ -5,18 +5,6 @@
 #include "mainFunc.h"	//Главные функции
 #include "helpFunc.h"	//Вспомогательные функции
 
-void inputNamefileNamemap(char &filename, char &mapname){
-	// Ввод имени файла
-	mvprintw(0, 0, "Input Filename :  ");
-	scanw("%s", &filename);
-									
-	// Добавляем в конец строки ".txt"
-	//int len_filename = strlen(user.filename);
-	mvprintw(1, 0, "Input Filename :  %s.txt", filename);
-	mvprintw(0, 0, "Input name map :  ");
-	scanw("%s", &mapname);
-}
-
 /*
 	1. В Creat map, оформить как блоки до этого
 */
@@ -24,25 +12,13 @@ void inputNamefileNamemap(char &filename, char &mapname){
 /**
 -------------MENU------------------------------
 Game selection
-	Snake
-		Start
-		Archive fields
-		Creat field
-		Import field
-		Exit
-	Pacman
-		Start
-		Archive fields
-		Creat field
-		Import field
-		Exit
-	War of Countries
-		Start
-		Archive fields
-		Creat field
-		Import field
-		Exit
+
+	Start
+	Archive fields
+	Creat field
+	Import field
 	Exit
+
 Setting
 Help
 Exit
@@ -61,11 +37,13 @@ int main()
 		fprintf(stderr, "Error initialising ncurses.\n");
 		exit(1);
 	}
+	
+//########################################################################
 
 	//Главное меню
 	const int NUM_BLOCK_MENU = 4;	//Колличество блоков в меню
 	char text_menu[NUM_BLOCK_MENU][LEN]= {
-		"Game selection",
+		"Next",
 		"Setting",
 		"Help",
 		"Exit"
@@ -84,8 +62,8 @@ int main()
 	// Menu /Game section /Any games / Creat map
 	const int NUM_BLOCK_CREAT_MAP = 3;	//Список игр + exit
 	char menu_creat_map[NUM_BLOCK_CREAT_MAP][LEN]= {
-		"Next",
-		"Rewrite",
+		"Start draw",
+		"Rewrite map",
 		"Exit"
 	};
 
@@ -96,6 +74,7 @@ int main()
 		char mapname[LEN];	//Имя карты
 	} user;	//!!!!!!!!!!!!!!!!!!
 
+//########################################################################
 
 	initscr();
 	refresh();
@@ -106,10 +85,17 @@ int main()
 	
 	//Анимация
 	int s_win = COLS  * LINES;	// Площадь консоли
-	//animation(s_win);
+	animation(s_win, 1000);
 	
-	//Черчение границ
-	borderMenu();
+	//Создаем окно
+	int offsetx = (COLS - WIDTH_WIN) / 2;
+	int offsety = (LINES - HEIGHT_WIN) / 2;
+	WINDOW *win = newwin(HEIGHT_WIN, WIDTH_WIN, offsety, offsetx);
+
+	//Чертим границы
+	box(win, 0, 0);
+	wrefresh(win);
+	delwin(win);
 	
 	curs_set(0);
 	noecho();	//Чтобы при записи символа, символ не повторялся
@@ -118,14 +104,13 @@ int main()
 	//Вывод имени платформы
 	char name_app[] = "Snake";
 	nameGame(name_app);
-	char empty_str[LEN] = "                  ";	//Пустая строка, рабтает как стёрка
+	char empty_str[LEN] = "                  \0";	//Пустая строка, рабтает как стёрка
 	
 	printAllBlocks(NUM_BLOCK_MENU, &text_menu[0][0]);	//Выписывает все главное меню
 		
 	int pos_cursor = 0;	//Позиция курсора
 	int ch = 0;	//Символ навигации
 	int depth_menu = 1;	//Выход из цикла
-	int token = 0;	// токен игры. Если 1, то Snake. Если 2, то Pacman. Если 3, то War of Countries. Если 0, то не активен
 
 	selectBlock(pos_cursor, NUM_BLOCK_MENU, text_menu[pos_cursor]);	//Выделение блока
 	
@@ -158,32 +143,61 @@ int main()
 							continue;
 						}
 						
-						++depth_menu;
-						
+						//Creat map
 						if (pos_cursor == 2){
-							inputNamefileNamemap(user.filename, user.mapname);
-							
-							//pos_cursor = 0;
-							printAllBlocks(NUM_BLOCK_CREAT_MAP, &menu_creat_map[0][0]);	//Выписывает весь список игр
-							selectBlock(pos_cursor, NUM_BLOCK_CREAT_MAP, menu_creat_map[pos_cursor]);	//Выделение блока
-							
-							while(depth_menu == 3){
-								navigation(ch, pos_cursor, NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Навигация + Печать блока + Выделение блока
-					
-								if (ch == KEY_RIGHT || ch == '\n' || ch == 'd'){
-									//Exit
-									if (pos_cursor == NUM_BLOCK_MENU_GAME - 1){
-										pos_cursor = 0;
+						//````````````````````````````````````````````````
+							bool is_exit = 0;
+							while (!is_exit){
+								++depth_menu;
+								
+								inputdata(&user.filename[0], &user.mapname[0]);	//Ввод имени файла и имени карты
+								animation(s_win, 100);
+								//Чертим карту
+								WINDOW *win = newwin(HEIGHT_WIN, WIDTH_WIN, offsety, offsetx);
+								wrefresh(win);
+								box(win, 0, 0);
+								wrefresh(win);
+								delwin(win);
+								
+								nameGame(name_app);	//имя игры
+								
+								pos_cursor = 0;
+								printAllBlocks(NUM_BLOCK_CREAT_MAP, &menu_creat_map[0][0]);	//Выписывает весь список игр
+								selectBlock(pos_cursor, NUM_BLOCK_CREAT_MAP, menu_creat_map[pos_cursor]);	//Выделение блока
+								
+								while(depth_menu == 3){
+									navigation(ch, pos_cursor, NUM_BLOCK_CREAT_MAP, &menu_creat_map[0][0]);	//Навигация + Печать блока + Выделение блока
+						
+									if (ch == KEY_RIGHT || ch == '\n' || ch == 'd'){
+										//Exit
+										if (pos_cursor == NUM_BLOCK_CREAT_MAP - 1){
+											pos_cursor = 0;
+											is_exit = 1;
+											
+											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
+											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
+											
+											continue;
+										}
+										
+										else if (pos_cursor == 0){
+											creatMap(&user.username[0], &user.filename[0], &user.mapname[0]);
+											
+											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
+											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
+											
+											is_exit = 1;
+										}
+										
+										else if(pos_cursor == 1)
+											;
+											
 										--depth_menu;
 										
-										printBlock(4, NUM_BLOCK_MENU_GAME, &empty_str[0]);
-										
-										continue;
 									}
 									
-								}
-								
-							}//while 3
+								}//while 3
+							}
 							
 						}
 						
@@ -210,3 +224,5 @@ int main()
 	
 	return 0;
 }
+
+
