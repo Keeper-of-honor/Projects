@@ -11,6 +11,8 @@ void selectBlock(int pos_cursor, const int NUM_BLOCK, char text[]);	//Выдел
 //Навигация
 void navigation(int &ch, int &pos_cursor, const int NUM_BLOCK, char text[]);
 
+void clearWindow(size_t height, size_t width);	//Очистка экрана
+
 //void dataUpdate(int &depth_menu, int &pos_cursor, const int NUM_BLOCK, char text[]);
 
 #endif

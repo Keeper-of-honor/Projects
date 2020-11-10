@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string.h>
 
+#include <unistd.h>
+#include <fstream>
+
 #include <vector>
 #include <fstream>
 
@@ -80,7 +83,7 @@ void inputdata(char filename[], char mapname[]){
 	filename[len_filename++] = '\0';
 	
 	// Добавляем в конец строки ".txt"
-	mvprintw(LINES - 2, 0, "Input Filename :  %s.txt", filename);
+	mvprintw(LINES - 2, 0, "Input Filename :  %s", filename);
 	for (int i = 0; i != COLS; ++i)
 		mvaddch(LINES - 1, i, ' ');	
 	// Ввод имени карты
@@ -102,20 +105,30 @@ void inputdata(char filename[], char mapname[]){
 		mvaddch(LINES - 2, i, ' ');
 }
 
+char MAPS_PATH[] = "archivе";
+
 //Создание карты
 void creatMap(char username[], char filename[], char mapname[]){
+	WINDOW *win = newwin(HEIGHT_WIN, WIDTH_WIN, offsety, offsetx);
+	wrefresh(win);
+
 	//system("clear");	//Очистка экрана
 
+	char road_map [100];
+	sprintf(road_map, ".//%s//%s", MAPS_PATH, filename);
+	//ofstream fout = fopen("", "w");
+	chdir(".//archive");
 	ofstream fout = ofstream(filename);
+	//FILE *fout = fopen(road_map,"w"); 
 	size_t height;	//высота окна
 	size_t width;	//ширина окна
 
 	getmaxyx(stdscr, height, width); //определяем размер экрана
 
-	for (int i = 0; i != height; ++i)
-		for (int j = 0; j != width; ++j){
+	for (size_t i = 0; i != height; ++i)
+		for (size_t j = 0; j != width; ++j)
 			mvaddch(i, j, ' ');
-		}
+
 
 	//Для записи с центра карты
 	size_t x = width / 2 - 1;		//координата строчки
@@ -125,8 +138,9 @@ void creatMap(char username[], char filename[], char mapname[]){
 	vector <vector<char>> canvas;	//Лист для 
 	canvas = vector <vector<char>>(height, vector<char> (width, ' ') );
 
+	clearWindow(height, width);
 	//Чертим карту
-    	for (size_t i = 0; i != height; ++i){
+    for (size_t i = 0; i != height; ++i){
 		for (size_t j = 0; j != width; ++j){		/// i = высота; j = ширина
 			mvprintw(0, j, "#");				///Верхняя граница
 			mvprintw(height - 1, j, "#");		///Нижняя граница

@@ -54,7 +54,7 @@ int main()
 	char game_menu[NUM_BLOCK_MENU_GAME][LEN]= {
 		"Start",
 		"Archive maps",
-		"Creat map",
+		"Create map",
 		"Import map",
 		"Exit"
 	};
@@ -176,21 +176,21 @@ int main()
 											
 											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
 											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
+											--depth_menu;
 											
 											continue;
 										}
 										
 										else if (pos_cursor == 0){
 											creatMap(&user.username[0], &user.filename[0], &user.mapname[0]);
-											
+												
 											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
 											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
 											
 											is_exit = 1;
 										}
 										
-										else if(pos_cursor == 1)
-											;
+										else if(pos_cursor == 1);
 											
 										--depth_menu;
 										

@@ -107,6 +107,14 @@ void navigation(int &ch, int &pos_cursor, const int NUM_BLOCK, char text[]){
 	
 	selectBlock(pos_cursor, NUM_BLOCK, &text[pos_cursor * LEN]);	//Выделение блока
 }
+
+//Очистка экрана
+void clearWindow(size_t height, size_t width){
+	for (size_t i = 0; i != height; ++i)
+		for (size_t j = 0; j != width; ++j)
+			mvaddch(i, j, ' ');
+}
+
 /*
 
 //Обновление переменных и вывод всех блоков и выделение первого
