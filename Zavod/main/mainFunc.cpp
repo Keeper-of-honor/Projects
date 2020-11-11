@@ -19,17 +19,16 @@ extern const int HEIGHT_WIN;	// Длина окна меню
 
 extern const int LEN;	//Длина
 
-/*
 //Создание границ
 void borderMenu(int offsetx, int offsety){
+	//Чертим карту
+	WINDOW *win = newwin(HEIGHT_WIN, WIDTH_WIN, offsety, offsetx);
+	wrefresh(win);
 
-	//Чертим границы
 	box(win, 0, 0);
-
 	wrefresh(win);
 	delwin(win);
 }
-*/
 
 
 //Первоначальная анимация и создание границ
@@ -67,7 +66,8 @@ void nameGame(char name_app[]){
 
 //Ввод имени файла и имени карты 
 void inputdata(char filename[], char mapname[]){
-	system("clear");	//Очистка экрана
+	//Очистка экрана
+	clearWindow(LINES, COLS);
 
 	curs_set(1);	// + курсок
 	echo();	//+ печать
@@ -105,17 +105,15 @@ void inputdata(char filename[], char mapname[]){
 		mvaddch(LINES - 2, i, ' ');
 }
 
-char MAPS_PATH[] = "archivе";
+//char MAPS_PATH[] = "archivе";
 
 //Создание карты
 void creatMap(char username[], char filename[], char mapname[]){
-	WINDOW *win = newwin(HEIGHT_WIN, WIDTH_WIN, offsety, offsetx);
-	wrefresh(win);
 
 	//system("clear");	//Очистка экрана
 
-	char road_map [100];
-	sprintf(road_map, ".//%s//%s", MAPS_PATH, filename);
+	//char road_map [100];
+	//sprintf(road_map, ".//%s//%s", MAPS_PATH, filename);
 	//ofstream fout = fopen("", "w");
 	chdir(".//archive");
 	ofstream fout = ofstream(filename);
@@ -125,10 +123,7 @@ void creatMap(char username[], char filename[], char mapname[]){
 
 	getmaxyx(stdscr, height, width); //определяем размер экрана
 
-	for (size_t i = 0; i != height; ++i)
-		for (size_t j = 0; j != width; ++j)
-			mvaddch(i, j, ' ');
-
+	height -= 5;
 
 	//Для записи с центра карты
 	size_t x = width / 2 - 1;		//координата строчки
@@ -138,20 +133,25 @@ void creatMap(char username[], char filename[], char mapname[]){
 	vector <vector<char>> canvas;	//Лист для 
 	canvas = vector <vector<char>>(height, vector<char> (width, ' ') );
 
-	clearWindow(height, width);
+	//Очистка экрана
+	clearWindow(LINES, COLS);
+	
 	//Чертим карту
-    for (size_t i = 0; i != height; ++i){
+   	for (size_t i = 0; i != height; ++i){
 		for (size_t j = 0; j != width; ++j){		/// i = высота; j = ширина
-			mvprintw(0, j, "#");				///Верхняя граница
-			mvprintw(height - 1, j, "#");		///Нижняя граница
+			mvaddch(i, j, ' ');
+			mvaddch(0, j, '#');			///Верхняя граница
+			mvaddch(height - 1, j, '#');		///Нижняя граница
 			if (j == 0 || j == width - 1)		///Боковые границы
-				mvprintw(i, j, "#");
+				mvaddch(i, j, '#');
 		}
 	}
+	mvprintw(height + 2, 3, "Press \"TAB\" to change mode (wall/empty)");
+	mvprintw(height + 3, 3, "Press \"ENTER\" to set the start of the snake");
     	
 	//Символы печати
     	int ch = 0;	//Символ для навигации
-    	char w_ch = 'X';	//Символ для печати
+    	char w_ch = '#';	//Символ для печати
 
 	move(y, x);
 	addch(w_ch | A_STANDOUT);
@@ -179,8 +179,11 @@ void creatMap(char username[], char filename[], char mapname[]){
 			break;
 		
 		//Запись после передвижения
-		else if (ch != '\t'){
-			w_ch = ch;
+		else if (ch == '\t'){
+			if (w_ch == ' ')
+				w_ch = '#';
+			else
+				w_ch = ' ';
 		}
 		
 		//Чтоб кусор не вышел за предел границы

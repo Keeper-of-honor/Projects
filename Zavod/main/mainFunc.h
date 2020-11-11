@@ -1,7 +1,7 @@
 #ifndef MAINFUNC_H
 #define MAINFUNC_H
 
-void borderMenu();	//Первоначальная анимация и создание границ
+void borderMenu(int offsetx, int offsety);	//Первоначальная анимация и создание границ
 void nameGame(char name_app[]);	//Запись имени игры
 
 void inputdata(char filename[], char mapname[]); //Ввод имени файла и имени карты
