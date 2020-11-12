@@ -110,6 +110,10 @@ void inputdata(char filename[], char mapname[]){
 //Создание карты
 void creatMap(char username[], char filename[], char mapname[]){
 
+	curs_set(0);
+	noecho();	//Чтобы при записи символа, символ не повторялся
+	keypad(stdscr, TRUE);	//Включает возможности клавиатуры
+
 	//system("clear");	//Очистка экрана
 
 	//char road_map [100];
@@ -139,15 +143,18 @@ void creatMap(char username[], char filename[], char mapname[]){
 	//Чертим карту
    	for (size_t i = 0; i != height; ++i){
 		for (size_t j = 0; j != width; ++j){		/// i = высота; j = ширина
-			mvaddch(i, j, ' ');
 			mvaddch(0, j, '#');			///Верхняя граница
 			mvaddch(height - 1, j, '#');		///Нижняя граница
-			if (j == 0 || j == width - 1)		///Боковые границы
+			if (j == 0 || j == width - 1){		///Боковые границы
 				mvaddch(i, j, '#');
+				canvas[i][j] = '#';
+			}
+			canvas[0][j] = '#';
+			canvas[height - 1][j] = '#';
 		}
 	}
-	mvprintw(height + 2, 3, "Press \"TAB\" to change mode (wall/empty)");
-	mvprintw(height + 3, 3, "Press \"ENTER\" to set the start of the snake");
+	mvprintw(height + 1, 3, "Press \"TAB\" to change mode (wall/empty)");
+	mvprintw(height + 2, 3, "Press \"ENTER\" to set the start of the snake");
     	
 	//Символы печати
     	int ch = 0;	//Символ для навигации
@@ -175,6 +182,31 @@ void creatMap(char username[], char filename[], char mapname[]){
 			mvprintw(y, x, "%c", w_ch);			
 			x++;
 		}
+		
+		else if (ch == KEY_HOME){
+			mvprintw(y, x, "%c", w_ch);
+			x = 1;
+			mvprintw(y, x, "%c", w_ch);			
+		}
+		else if (ch == KEY_END){
+			mvprintw(y, x, "%c", w_ch);
+			x = width - 2;
+			mvprintw(y, x, "%c", w_ch);
+		}
+		
+		//Page Up
+		else if (ch == KEY_NPAGE){
+			mvprintw(y, x, "%c", w_ch);
+			y = height - 2;
+			mvprintw(y, x, "%c", w_ch);			
+		}
+		//Page Down
+		else if (ch == KEY_PPAGE){
+			mvprintw(y, x, "%c", w_ch);
+			y = 1;
+			mvprintw(y, x, "%c", w_ch);			
+		}
+		
 		else if (ch == '\n')
 			break;
 		

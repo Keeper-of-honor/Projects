@@ -85,7 +85,7 @@ int main()
 	
 	//Анимация
 	int s_win = COLS  * LINES;	// Площадь консоли
-	animation(s_win, 1000);
+	//----animation(s_win, 1000);
 	
 	//Создаем окно
 	int offsetx = (COLS - WIDTH_WIN) / 2;
@@ -149,9 +149,8 @@ int main()
 								++depth_menu;
 								
 								inputdata(&user.filename[0], &user.mapname[0]);	//Ввод имени файла и имени карты
-								animation(s_win, 100);
+								//-----animation(s_win, 100);
 								borderMenu(offsetx, offsety);
-								
 								nameGame(name_app);	//имя игры
 								
 								pos_cursor = 0;
@@ -169,25 +168,23 @@ int main()
 											
 											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
 											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
-											--depth_menu;
-											
-											continue;
 										}
 										
 										else if (pos_cursor == 0){
 											creatMap(&user.username[0], &user.filename[0], &user.mapname[0]);
 											
-											animation(s_win, 100);
+											//---animation(s_win, 100);
 											borderMenu(offsetx, offsety);
 											
 											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
 											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
+											nameGame(name_app);	//имя игры
 											
 											is_exit = 1;
 										}
 										
-										else if(pos_cursor == 1);
-											
+										//else if(pos_cursor == 1);
+										
 										--depth_menu;
 										
 									}
