@@ -172,13 +172,14 @@ int main()
 										
 										else if (pos_cursor == 0){
 											creatMap(&user.username[0], &user.filename[0], &user.mapname[0]);
+											//clearWindow(LINES, COLS);
 											
 											//---animation(s_win, 100);
 											borderMenu(offsetx, offsety);
+											nameGame(name_app);	//имя игры
 											
 											printAllBlocks(NUM_BLOCK_MENU_GAME, &game_menu[0][0]);	//Выписывает весь список игр
 											selectBlock(pos_cursor, NUM_BLOCK_MENU_GAME, game_menu[pos_cursor]);	//Выделение блока
-											nameGame(name_app);	//имя игры
 											
 											is_exit = 1;
 										}

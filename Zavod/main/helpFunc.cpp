@@ -115,6 +115,12 @@ void clearWindow(size_t height, size_t width){
 			mvaddch(i, j, ' ');
 }
 
+//Очистка строки
+void clearStrs(int y_start, int x_start, int y_end, int x_end){
+	for (int i = y_start; i != y_end; ++i)
+		for (int j = x_start; j != x_end; ++j)
+			mvaddch(i, j, ' ');
+}
 /*
 
 //Обновление переменных и вывод всех блоков и выделение первого

@@ -12,6 +12,7 @@ void selectBlock(int pos_cursor, const int NUM_BLOCK, char text[]);	//Выдел
 void navigation(int &ch, int &pos_cursor, const int NUM_BLOCK, char text[]);
 
 void clearWindow(size_t height, size_t width);	//Очистка экрана
+void clearStrs(int y_start, int x_start, int y_end, int x_end); //Очистка строки
 
 //void dataUpdate(int &depth_menu, int &pos_cursor, const int NUM_BLOCK, char text[]);
 

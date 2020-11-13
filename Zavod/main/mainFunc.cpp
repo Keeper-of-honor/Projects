@@ -109,6 +109,8 @@ void inputdata(char filename[], char mapname[]){
 
 //Создание карты
 void creatMap(char username[], char filename[], char mapname[]){
+	//Очистка экрана
+	clearWindow(LINES, COLS);
 
 	curs_set(0);
 	noecho();	//Чтобы при записи символа, символ не повторялся
@@ -119,7 +121,7 @@ void creatMap(char username[], char filename[], char mapname[]){
 	//char road_map [100];
 	//sprintf(road_map, ".//%s//%s", MAPS_PATH, filename);
 	//ofstream fout = fopen("", "w");
-	chdir(".//archive");
+	chdir(".//archive//maps");
 	ofstream fout = ofstream(filename);
 	//FILE *fout = fopen(road_map,"w"); 
 	size_t height;	//высота окна
@@ -136,9 +138,6 @@ void creatMap(char username[], char filename[], char mapname[]){
 	//Инициализация 2мерного массива
 	vector <vector<char>> canvas;	//Лист для 
 	canvas = vector <vector<char>>(height, vector<char> (width, ' ') );
-
-	//Очистка экрана
-	clearWindow(LINES, COLS);
 	
 	//Чертим карту
    	for (size_t i = 0; i != height; ++i){
@@ -154,69 +153,92 @@ void creatMap(char username[], char filename[], char mapname[]){
 		}
 	}
 	mvprintw(height + 1, 3, "Press \"TAB\" to change mode (wall/empty)");
-	mvprintw(height + 2, 3, "Press \"ENTER\" to set the start of the snake");
+	mvprintw(height + 2, 3, "Press \"C\" to clear map");
+	mvprintw(height + 3, 3, "Press \"ENTER\" to set the start of the snake");
     	
 	//Символы печати
     	int ch = 0;	//Символ для навигации
     	char w_ch = '#';	//Символ для печати
+    	char last = '#';
 
 	move(y, x);
 	addch(w_ch | A_STANDOUT);
+	size_t page = 0;
    	while (true){
 		ch = getch();	//ввод символа (для навигации и печати).
-		
 		//Навигация
-		if (ch == KEY_DOWN){
-			mvprintw(y, x, "%c", w_ch);
+		if (ch == KEY_DOWN || ch == 's'){
+			mvprintw(y, x, "%c", last);
 			y++;
 		}
-		else if (ch == KEY_UP){
-			mvprintw(y, x, "%c", w_ch);
+		else if (ch == KEY_UP || ch == 'w'){
+			mvprintw(y, x, "%c", last);
 			y--;
 		}
-		else if (ch == KEY_LEFT){
-			mvprintw(y, x, "%c", w_ch);
+		else if (ch == KEY_LEFT || ch == 'a'){
+			mvprintw(y, x, "%c", last);
 			x--;
 		}
-		else if (ch == KEY_RIGHT){
-			mvprintw(y, x, "%c", w_ch);			
+		else if (ch == KEY_RIGHT || ch == 'd'){
+			mvprintw(y, x, "%c", last);			
 			x++;
 		}
 		
+		//Home
 		else if (ch == KEY_HOME){
-			mvprintw(y, x, "%c", w_ch);
+			mvprintw(y, x, "%c", last);
 			x = 1;
 			mvprintw(y, x, "%c", w_ch);			
 		}
+		//End
 		else if (ch == KEY_END){
-			mvprintw(y, x, "%c", w_ch);
+			mvprintw(y, x, "%c", last);
 			x = width - 2;
 			mvprintw(y, x, "%c", w_ch);
 		}
 		
 		//Page Up
 		else if (ch == KEY_NPAGE){
-			mvprintw(y, x, "%c", w_ch);
+			mvprintw(y, x, "%c", last);
 			y = height - 2;
 			mvprintw(y, x, "%c", w_ch);			
 		}
 		//Page Down
 		else if (ch == KEY_PPAGE){
-			mvprintw(y, x, "%c", w_ch);
+			mvprintw(y, x, "%c", last);
 			y = 1;
 			mvprintw(y, x, "%c", w_ch);			
 		}
 		
-		else if (ch == '\n')
-			break;
+		else if (ch == '\n'){
+			++page;
+			if (page == 1){
+				x = width / 2 - 1;	//координата строчки
+				y = height / 2 - 1;	//координата столбца
+				last = ' ';	//display character
+				w_ch = 'O';	//activity symbol
+				clearStrs(height, 0, LINES, width);	//delete str
+				mvprintw(height + 1, 3, "Set Snake position");
+				mvprintw(height + 2, 3, "Press \"ENTER\" to end");
+			}
+			else
+				break;
+		}
 		
 		//Запись после передвижения
-		else if (ch == '\t'){
+		else if (ch == '\t' && page != 1){
 			if (w_ch == ' ')
 				w_ch = '#';
 			else
 				w_ch = ' ';
+			last = w_ch;
 		}
+		else if (ch == 15 && page == 1)	//15 => Shift + Tab
+			--page;
+		
+		//Clear window
+		else if (ch == 'c' || ch == 'C')
+			 clearStrs(1, 1, height - 1, width - 1);
 		
 		//Чтоб кусор не вышел за предел границы
 		if (x == width-1)
@@ -228,13 +250,13 @@ void creatMap(char username[], char filename[], char mapname[]){
 		else if (y == 0)
 			++y;
 			
-			
 		//Печать активного символа (место где находится курсор)
 		move(y, x);
 		addch(w_ch | A_STANDOUT);
 
-		canvas[y][x] = w_ch;
+		canvas[y][x] = last;
 	}
+	canvas[y][x] = w_ch;
 	
 	for (size_t i = 0; i != height; ++i){
 		for (size_t j = 0; j != width; ++j){
@@ -242,8 +264,13 @@ void creatMap(char username[], char filename[], char mapname[]){
 		}
 		fout << endl;
 	}
-	fout << '\t' << "Name: " << username << endl;
-	fout << '\t' << "Name map: " << mapname << endl;
+	fout << endl
+		<< '\t' << "Name user: " << username << endl
+		<< '\t' << "Name map: " << mapname << endl
+		<< '\t' << "Width map: " << width << endl
+		<< '\t' << "Height map: " << height << endl;
+	
 
-	system("clear");	//Очистка экрана
+	//clearWindow(LINES, COLS);
+	system("clear");
 }
