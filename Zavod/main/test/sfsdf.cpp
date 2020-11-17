@@ -1,12 +1,9 @@
 #include <ncurses.h>
 #include <iostream>
 #include <string.h>
-#include <string>
 
 #include "mainFunc.h"	//Главные функции
 #include "helpFunc.h"	//Вспомогательные функции
-#define MAXX 10000
-#define LEN 35
 
 /*
 	1. В Creat map, оформить как блоки до этого
@@ -32,8 +29,7 @@ Exit
 extern const int WIDTH_WIN = 50;	// Ширина окна меню
 extern const int HEIGHT_WIN = 20;	// Длина окна меню
 
-//extern const int LEN = 35;	//Длина
-//extern const int MAXX = 10000;	//Максимальная длина
+extern const int LEN = 35;	//Длина
 
 int main()
 {
@@ -148,14 +144,6 @@ int main()
 
 						//Archive maps
 						if (pos_cursor == 1){
-							char archive_map[MAXX][LEN];
-							size_t len_archive = creatArchive(&archive_map[0][0]);
-							
-							
-							/*
-							for (size_t i = 0; i != len_archive; ++i)
-								mvprintw(i, 0, "%s", archive_map[i]);
-							*/
 							
 						}
 

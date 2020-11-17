@@ -3,12 +3,15 @@
 #include <string.h>
 #include <unistd.h>
 
+#define MAXX 10000
+#define LEN 35
+
 //------------------------------------------------
 //Глобальные константы
 extern const int WIDTH_WIN;	// Ширина окна меню
 extern const int HEIGHT_WIN;	// Длина окна меню
 
-extern const int LEN;	//Длина
+//extern const int LEN;	//Длина
 
 //Анимация
 //	Передаём площадь экрана
