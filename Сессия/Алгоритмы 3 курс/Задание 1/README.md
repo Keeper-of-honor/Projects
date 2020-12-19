@@ -1,4 +1,4 @@
-#Bubble Sort vs Quick Sort
+<h1>Bubble Sort vs Quick Sort</h1>
 
 ##Bubble Sort
  **Bubble Sort** ака Пузырьковая сортировка. Средняя сложность **O(n^2)**. То есть,
