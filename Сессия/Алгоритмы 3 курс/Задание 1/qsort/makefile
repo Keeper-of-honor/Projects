@@ -1,2 +1,2 @@
 all:
-	python3 qsort.py
+	python3 main.py
