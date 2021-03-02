@@ -1,0 +1,3 @@
+Доменное имя: fish.mcdir.ru
+FTP логин: a349696_fishtest
+FTP пароль: NKDO16l2cI

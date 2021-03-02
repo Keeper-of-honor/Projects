@@ -1,0 +1,126 @@
+@font-face {
+font-family: 'Gilroy-Medium'; 
+src: url(fonts/Gilroy-Medium.ttf);
+}
+
+*,
+*:after,
+*::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+	font-family:  Gilroy-Medium, sans-serif;
+	color: #fff;
+	background-color: #4b4b4b;
+}
+/*Тень*/
+.content{
+	 box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5);
+}
+
+/*Заголовок*/
+header{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	flex-direction: column;
+	padding: 30px 50px;
+}
+header p{
+	padding-top: 10px;
+	font-size: 20px;
+}
+
+nav a {
+	position: relative;
+	display: inline-block;
+	margin: 15px 25px;
+	outline: none;
+	color: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 400;
+	text-shadow: 0 0 1px rgba(255,255,255,0.3);
+	font-size: 1.35em;
+}
+
+nav a:hover,
+nav a:focus {
+	outline: none;
+}
+
+/* Эффект замены текста и фона слева */
+section{
+	width: 100vw;
+	padding: 50px 30px;
+}
+
+section p{
+	color: #fff;
+	font-size: 40px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+.link{
+	position: relative;
+	z-index: 1;
+}
+
+.link a {
+	overflow: hidden;
+	margin: 10px 15px;
+}
+
+.link a span {
+	display: block;
+	padding: 10px 20px;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+	transition: transform 0.3s;
+}
+
+.link a::before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	padding: 10px 20px;
+	background: #fff;
+	content: attr(data-hover);
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+	transition: transform 0.3s;
+	-webkit-transform: translateX(-25%);
+}
+
+.link a:hover span,
+.link a:focus span {
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	transform: translateX(100%);
+}
+
+.link a:hover::before,
+.link a:focus::before {
+	-webkit-transform: translateX(0%);
+	-moz-transform: translateX(0%);
+	transform: translateX(0%);
+}
+
+/*Color 1*/
+section.c1{background-color: #10ac84;}
+section.c1 .link a span{background: #1dd1a1;}
+section.c1 .link a::before {color: #1dd1a1;}
+
+/*Color 2*/
+section.c2{background-color: #ee5253;}
+section.c2 .link a span{background: #ff6b6b;}
+section.c2 .link a::before {color: #ff6b6b;}
