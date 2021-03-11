@@ -1,0 +1,516 @@
+@font-face {
+font-family: 'Roboto'; 
+src: url(fonts/Roboto.ttf);
+}
+@font-face {
+font-family: 'Downcome';
+src: url(fonts/Downcome.ttf);
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+	text-decoration: none;
+	color: #fff;
+}
+html{
+	overflow: none;
+}
+html::-webkit-scrollbar {width:0px;}
+body{
+    font-family: 'Roboto', sans-serif;
+    overflow-y: scroll; 
+    overflow-x: hidden; 
+    color: #fff;
+}
+
+/*-----Block-----*/
+.block{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	background-color: #343434;
+}
+
+/*-----Center-----*/
+.center{
+	display: grid;
+	margin: 5% 7%;
+	width: 100%
+}
+
+/*-----Name-----*/
+.name{
+	width: 300px;
+	height: 70px;
+	font-size: 1.75vw;
+}
+
+
+/****************************************/
+
+/*Block 1*/
+
+.block1{
+	background-image: url(img/block_1/1.png);
+	background-attachment: fixed;
+	background-repeat: no-repeat; 
+    background-size: cover;
+}
+
+	/*Header*/
+
+header{
+	position: fixed;
+	height: 80px;
+	width: 100%;
+	z-index: 2;
+}
+		/*Menu*/
+
+ul.menu{
+  	list-style: none;
+    height: 80px;
+    float: right;
+    width: 100%;
+    margin-right: 100px;
+}
+ul.menu a{
+    font-size: 18px;
+    float: right;
+    margin: 30px;
+    transition: all 0.5s ease;
+}
+ul.menu a:hover{
+	color: #aaa;
+	transition: 0.3s;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #aaa;
+}
+
+	/*Center*/
+
+.block1_1{
+	display: grid;
+	width: 100%;
+	height: 100vh;
+	align-items: center;
+	justify-content: center;
+}
+
+		/*Logo*/
+
+div.block1 .center1 .logo{
+	font-family: 'Downcome';
+	font-size: 144px;
+	border-top: 10px solid #fff;
+	border-bottom: 10px solid #fff;
+}
+
+.block1_1 .center1 .podlogo{
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+	font-family: 'Downcome';
+	font-size: 64px;
+}
+
+		/*Button*/
+
+.downland{
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+  	font-family: Consolas;
+}
+a.button{
+  	position: relative;
+  	color: #fff;
+  	display: inline-block;
+  	text-decoration: none;
+  	text-transform: uppercase;
+  	letter-spacing: 4px;
+  	font-size: 24px;
+  	overflow: hidden;
+  	padding: 15px 30px;
+  	transition: 0.2s;
+}
+.button_line{
+  	position: absolute;
+  	display: block;
+}
+
+.top{
+  	top: 0;
+  	left: -100%;
+  	width: 100%;
+  	height: 2px;
+  	background: linear-gradient(90deg, transparent, #fff);
+}
+.button:hover .top{
+  	left: 100%;
+  	transition: 0.7s;
+  	transition-delay: 0.25s;
+}
+
+.bottom{
+  	bottom: 0;
+  	right: -100%;
+  	width: 100%;
+  	height: 2px;
+  	background: linear-gradient(270deg, transparent, #fff);
+}
+.button:hover .bottom{
+  	right: 100%;
+  	transition: 0.7s;
+  	transition-delay: 0.25s;
+}
+
+.left{
+  	bottom: -100%;
+  	left: 0;
+  	width: 2px;
+  	height: 100%;
+  	background: linear-gradient(0deg, transparent, #fff);
+}
+.button:hover .left{
+	bottom: 100%;
+	transition: 0.7s;
+	transition-delay: 0.25s;
+}
+
+.right{
+  	top: -100%;
+  	right: 0;
+  	width: 2px;
+  	height: 100%;
+  	background: linear-gradient(180deg, transparent, #fff);
+}
+.button:hover .right{
+  	top: 100%;
+  	transition: 0.7s;
+  	transition-delay: 0.25s;
+}
+
+.button:hover{
+ 	box-shadow: 0 0 10px #fff, 0 0 40px #fff, 0 0 80px #fff;
+  	background-color: #fff;
+  	color: #333;
+  	transition-delay: 0.8s;
+}
+
+/****************************************/
+
+/*Block2*/
+
+/*Center*/
+
+.block2 .center{
+	grid-template-rows: 130px 150px 1fr;
+	flex-direction: column;
+}
+
+	/*Line name block2*/
+
+.block2 .center .name .line{
+	margin-top: 30px;
+	height: 0px;
+	width: 10vw;
+	border: 1px solid #fff;
+}
+
+	/*Text block2*/
+
+.block2 .center .text{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px,1fr));
+}
+
+	/*Text1 block2*/
+.block2 .center .text .text1{font-size: 2.3vw;}
+
+	/*Text2 block2*/
+.block2 .center .text .text2{font-size: 1.75vw;}
+	/*Img*/
+
+.block2 .center .img{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url(img/block_2/1.png);
+	background-attachment: fixed;
+  	background-position: center;
+	background-repeat: no-repeat; 
+    background-size: cover;
+    transition: all 0.5s ease;
+    width: 100%;
+    height: 100%;
+}
+.block2 .center .img p{
+	font-size: 3.3vw;
+}
+
+
+/*Img hover*/
+
+.block2 .center .img:hover{
+	transition: all 0.5s ease;
+	transform: scale(1.1);
+}
+
+/*Adap block2*/
+
+@media screen and (max-width: 1200px) {
+	.block2 .center{
+		grid-template-rows: 100px 110px 1fr;
+	}
+	.block2 .center .name p{
+		font-size: 2vw;
+	}
+	.block2 .center .text .text1{
+		font-size: 2.5vw;
+	}
+	.block2 .center .text .text2{
+		font-size: 2vw;
+	}
+	.block2 .center .img p{
+		font-size: 3.5vw;
+	}
+}
+
+/****************************************/
+
+/*Block5*/
+
+/*Center block5*/
+
+.block5 .center{
+	grid-template-rows: 130px 1fr;
+}
+
+.block5 .center .content{
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	flex-direction: column;
+}
+
+	/*Line name block5*/
+
+.block5 .center .name .line{
+	margin-top: 30px;
+	height: 0px;
+	width: 4vw;
+	border: 1px solid #fff;
+}
+
+/*Left block5*/
+
+.block5 .center .left1{
+	padding-right: 20%;
+}
+
+	/*Left Text block5*/
+
+.block5 .center .left1 .text1{
+	font-size: 2.3vw;
+}
+
+.block5 .center .left1 .text2{
+	padding-top: 7%;
+	font-size: 1.7vw;
+}
+
+/*Right block5*/
+
+.block5 .center .right1{
+	display: flex;
+	justify-content: center;
+}
+
+	/*Right man block5*/
+
+.block5 .center .right1 .man{
+	width: 30%;
+	padding: 0 5%;
+}
+
+/*img man block5*/
+.block5 .center .right1 .img{
+	background-repeat: no-repeat; 
+    background-size: cover;
+	border-radius: 8vw;
+	width: 8vw;
+	height: 8vw;
+}
+
+/*img man1 block5*/
+.block5 .center .right1 .man1 .img{
+	background-image: url(img/block_5/1.png);
+}
+
+/*img man2 block5*/
+.block5 .center .right1 .man2 .img{
+	background-image: url(img/block_5/2.png);
+}
+
+/*right1 Name block5*/
+.block5 .center .right1 .name{
+	margin: 5% 0;
+	height: 60px;
+	width: 70px;
+	font-size: 1.5vw;
+}
+
+.block5 .center .right1 .podname{
+	font-size: 1.3vw;
+}
+.block5 .center .right1 .text{
+	margin-top: 8%;
+	font-size: 1.1vw;
+}
+@media screen and (max-width: 1200px) {
+	.block5{height: 70vh;}
+	.block5 .center{grid-template-rows: 100px 1fr;}
+	.block5 .center .name p{font-size: 2vw;}
+	.block5 .center .left1 .text1{font-size: 2.3vw;}
+	.block5 .center .left1 .text2{font-size: 1.7vw;}
+	.block5 .center .right1 .name{font-size: 1.7vw;}
+	.block5 .center .right1 .podname{font-size: 1.5vw;}
+	.block5 .center .right1 .text{font-size: 1.4vw;}
+}
+
+
+/*Block6*/
+
+.block6{
+	background-image: url(img/block_6/2.png);
+	background-attachment: fixed;
+	background-repeat: no-repeat; 
+    background-size: cover;
+    flex-direction: column;
+}
+
+.block6 .name1{
+	width: 100vw;
+	height: 20vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.block6 .name1 p{
+	display: flex;
+	width: 300px;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	font-size: 3vw;
+} 
+
+.block6 .content{
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+}
+
+.block6 .content form{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 50%;
+	width: 100%;
+}
+.block6 .content form input{
+	width: 30vw;
+	height: 30px;
+	background-color: rgba(255, 255, 255, 0.8);
+	color: #000;
+	border: 3px solid #FFFFFF;
+	border-radius: 20px;
+	margin: 20px
+}
+
+.block6 .content .second{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.block6 .content .second .button6{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	width: 150px;
+	height: 30px;
+	border: 3px solid #FFFFFF;
+	border-radius: 20px;
+	transition: all 0.2s ease;
+}
+.block6 .content .second .button6:hover{
+	background-color: #33CC66;
+	transition: 0.5s;
+	border: 3px solid #fff;
+	color: #fff;
+}
+.block6 .content .second a{
+	font-size: 1.2vw;
+}
+
+@media screen and (max-width: 1200px) {
+	.block6 .name1 p{font-size: 3.5vw;}
+	.block6 .content .second a{font-size: 1.7vw;}
+}
+
+/*Block7*/
+
+.block7{
+	display: flex;
+	width: 100%;
+	height: 30vh;
+	background-color: #212121;
+	color: #fff;
+}
+.block7 .content{
+	margin: 3% 5%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr;
+	flex-direction: column;
+}
+
+
+.block7 .left1 .logo{
+	width: 80%;
+	font-family: 'Downcome';
+	font-size: 2.3vw;
+	border-bottom: 2px solid #fff;
+}
+.block7 .left1 .text{
+	margin-top: 2%;
+}
+
+
+.block7 .content .part{
+	margin: 0 30%;
+}
+.block7 .content .name1{
+	font-weight: 600;
+	padding-bottom: 10%;
+}
+.block7 .content .other{
+	padding-bottom: 5%;
+}
+.block7 .content .other a:hover{
+	color: #aaa;
+	transition: all 0.5s ease;
+}
+
+@media screen and (max-width: 1200px) {
+	.block7 .content{margin: 5% 7%;}
+}
+#about_us{
+	transition: 0.5s;
+}
